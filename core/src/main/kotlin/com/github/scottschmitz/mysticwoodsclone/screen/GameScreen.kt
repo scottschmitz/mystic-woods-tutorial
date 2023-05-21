@@ -1,9 +1,10 @@
 package com.github.scottschmitz.mysticwoodsclone.screen
 
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.TextureAtlas
+import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Image
-import com.badlogic.gdx.utils.Scaling
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.github.quillraven.fleks.World
 import com.github.quillraven.fleks.world
@@ -20,12 +21,13 @@ class GameScreen: KtxScreen {
     }
 
     private val stage: Stage = Stage(ExtendViewport(16f, 9f))
-    private val texture: Texture = Texture("assets/graphics/player.png")
+    private val textureAtlas = TextureAtlas("assets/graphics/mystic-woods.atlas")
+
     private val world: World = world {
         injectables {
             add(stage)
         }
-        
+
         components {
             onAdd(ImageComponent) { _, imageComponent ->
                 stage.addActor(imageComponent.image)
@@ -46,21 +48,20 @@ class GameScreen: KtxScreen {
 
         world.entity {
             it += ImageComponent(
-                image = Image(texture).apply {
-                    setPosition(1f, 1f)
+                image = Image(TextureRegion(textureAtlas.findRegion("player"), 0, 0, 48, 48)).apply {
                     setSize(4f, 4f)
-                    setScaling(Scaling.fill)
                 }
             )
         }
 
-//        stage.addActor(
-//            Image(texture).apply {
-//                setPosition(1f, 1f)
-//                setSize(1f, 1f)
-//                setScaling(Scaling.fill)
-//            }
-//        )
+        world.entity {
+            it += ImageComponent(
+                image = Image(TextureRegion(textureAtlas.findRegion("slime"), 0, 0, 32, 32)).apply {
+                    setSize(4f, 4f)
+                    setPosition(12f, 0f)
+                }
+            )
+        }
     }
 
     override fun resize(width: Int, height: Int) {
@@ -73,7 +74,7 @@ class GameScreen: KtxScreen {
 
     override fun dispose() {
         stage.disposeSafely()
-        texture.disposeSafely()
+        textureAtlas.disposeSafely()
         world.dispose()
     }
 }
