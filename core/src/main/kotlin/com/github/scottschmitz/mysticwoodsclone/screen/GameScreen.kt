@@ -8,7 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.github.quillraven.fleks.World
 import com.github.quillraven.fleks.world
+import com.github.scottschmitz.mysticwoodsclone.component.AnimationComponent
+import com.github.scottschmitz.mysticwoodsclone.component.AnimationModel
+import com.github.scottschmitz.mysticwoodsclone.component.AnimationType
 import com.github.scottschmitz.mysticwoodsclone.component.ImageComponent
+import com.github.scottschmitz.mysticwoodsclone.system.AnimationSystem
 import com.github.scottschmitz.mysticwoodsclone.system.RenderSystem
 import ktx.app.KtxScreen
 import ktx.assets.disposeSafely
@@ -25,6 +29,7 @@ class GameScreen: KtxScreen {
 
     private val world: World = world {
         injectables {
+            add(textureAtlas)
             add(stage)
         }
 
@@ -39,6 +44,7 @@ class GameScreen: KtxScreen {
         }
 
         systems {
+            add(AnimationSystem())
             add(RenderSystem())
         }
     }
@@ -48,19 +54,25 @@ class GameScreen: KtxScreen {
 
         world.entity {
             it += ImageComponent(
-                image = Image(TextureRegion(textureAtlas.findRegion("player"), 0, 0, 48, 48)).apply {
+                image = Image().apply {
                     setSize(4f, 4f)
                 }
             )
+            it += AnimationComponent().apply {
+                nextAnimation(AnimationModel.PLAYER, AnimationType.IDLE_RIGHT)
+            }
         }
 
         world.entity {
             it += ImageComponent(
-                image = Image(TextureRegion(textureAtlas.findRegion("slime"), 0, 0, 32, 32)).apply {
+                image = Image().apply {
                     setSize(4f, 4f)
                     setPosition(12f, 0f)
                 }
             )
+            it += AnimationComponent().apply {
+                nextAnimation(AnimationModel.SLIME, AnimationType.RUN)
+            }
         }
     }
 
