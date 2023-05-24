@@ -1,17 +1,12 @@
 package com.github.scottschmitz.mysticwoodsclone.screen
 
-import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
-import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.github.quillraven.fleks.World
 import com.github.quillraven.fleks.world
-import com.github.scottschmitz.mysticwoodsclone.component.AnimationComponent
-import com.github.scottschmitz.mysticwoodsclone.component.AnimationModel
-import com.github.scottschmitz.mysticwoodsclone.component.AnimationType
-import com.github.scottschmitz.mysticwoodsclone.component.ImageComponent
+import com.github.scottschmitz.mysticwoodsclone.component.*
 import com.github.scottschmitz.mysticwoodsclone.system.AnimationSystem
 import com.github.scottschmitz.mysticwoodsclone.system.RenderSystem
 import ktx.app.KtxScreen
@@ -59,7 +54,7 @@ class GameScreen: KtxScreen {
                 }
             )
             it += AnimationComponent().apply {
-                nextAnimation(AnimationModel.PLAYER, AnimationType.IDLE_RIGHT)
+                nextAnimation(AnimationModel.PLAYER, AnimationType.IDLE, Direction.UP)
             }
         }
 
@@ -71,7 +66,7 @@ class GameScreen: KtxScreen {
                 }
             )
             it += AnimationComponent().apply {
-                nextAnimation(AnimationModel.SLIME, AnimationType.RUN)
+                nextAnimation(AnimationModel.SLIME, AnimationType.RUN, Direction.LEFT)
             }
         }
     }
